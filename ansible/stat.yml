@@ -1,5 +1,6 @@
 - hosts: localhost
   become: false
+  
   tasks:
     - name: Define the backend configuration at init
       community.general.terraform:
@@ -11,4 +12,10 @@
           bucket: "tr-bucket-kr"
           key: "terraform.tfstate"
       register: out
-    - debug: var=out.stdout_lines.db_endpoint
+    - debug: var=out.outputs
+
+- name: reboot
+  hosts: aws_ec2
+  become: true
+  roles:
+    - role: django
