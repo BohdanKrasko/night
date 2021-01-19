@@ -1,13 +1,11 @@
-#ite_uwsgi.ini 
+#site_uwsgi.ini 
 [uwsgi]
 
 # Настройки, связанные с Django
 # Корневая папка проекта (полный путь)
-chdir           = /home/ubuntu/uwsgi-tutorial/mysite
+chdir           = {{ project_path }}
 # Django wsgi файл
-module          = mysite.wsgi
-# полный путь к виртуальному окружению
-#home            = /home/ubuntu/uwsgi-tutorial
+module          = {{ project_name }}.wsgi
 
 # общие настройки
 # master
@@ -15,7 +13,7 @@ master          = true
 # максимальное количество процессов
 processes       = 5
 # полный путь к файлу сокета
-socket          = /home/ubuntu/uwsgi-tutorial/mysite/mysite.sock
+socket          = {{ project_path }}/{{ project_name }}.sock
 # права доступа к файлу сокета
 chmod-socket    = 666
 # очищать окружение от служебных файлов uwsgi по завершению

@@ -53,9 +53,7 @@ data "aws_subnet_ids" "private" {
   tags = {
     Tier = "Private"
   }
-  depends_on = [
-    aws_subnet.private
-  ]
+  #depends_on = [aws_vpc.vpc]
 }
 
 data "aws_subnet_ids" "public" {
@@ -64,7 +62,5 @@ data "aws_subnet_ids" "public" {
     name   = "tag:Name"
     values = ["public-0", "public-1"]
   }
-    depends_on = [
-    aws_subnet.public
-  ]
+  #depends_on = [aws_vpc.vpc]
 }

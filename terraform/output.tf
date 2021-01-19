@@ -2,8 +2,12 @@ output "public_ip" {
   value = module.instances.public_ip
 }
 
-output "db_endpoint" {
-  value = module.rds.endpoint
+output "public_dns" {
+  value = module.instances.public_dns
+}
+
+output "db_address" {
+  value = module.rds.address
   sensitive = true
 }
 

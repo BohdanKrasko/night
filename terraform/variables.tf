@@ -5,7 +5,7 @@ variable "pub_key" {
 
 variable "pr_key" {
   type    = string
-  default = "~/.ssh/ec2"
+  default = "~/.ssh/ec2.pem"
 }
 
 variable "vpc_name" {

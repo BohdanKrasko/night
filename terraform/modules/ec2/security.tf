@@ -11,6 +11,10 @@ variable "service_ports" {
     {
       from_port = "443",
       to_port   = "443"
+    },
+    {
+      from_port = "8888",
+      to_port   = "8888"
     }
 
   ]

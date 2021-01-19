@@ -21,6 +21,7 @@
    - python-dev
    - libpq-dev
    - python3-pip
+   - python-setuptools
    - python3-virtualenv
    - nginx
    
@@ -33,55 +34,57 @@
 
 - name: check is file exists
   stat:
-    path: /home/ubuntu/uwsgi-tutorial
+    path: "{{ env_path }}"
   register: stat_result
      
 - name: create virtualenv
   shell: |
-    virtualenv /home/ubuntu/uwsgi-tutorial
-    cd /home/ubuntu/uwsgi-tutorial
+    virtualenv {{ env_path }}
+    cd {{ env_path }}
     source bin/activate
-    django-admin.py startproject mysite
+    django-admin.py startproject {{ project_name }}
   when: not stat_result.stat.exists
 
 - name: folders
   file:
-    path: "/home/ubuntu/uwsgi-tutorial/mysite/{{ item }}"
+    path: "{{ project_path }}/{{ item }}"
     state: directory
   loop:
     - media
     - static
     
 - name: copy nginx conf
-  copy:
-    src: ../files/mysite_nginx.conf
-    dest: /etc/nginx/conf.d/mysite_nginx.conf
+  template:
+    src: mysite_nginx.j2
+    dest: /etc/nginx/nginx.conf
     
 - name: copy uwsgi params
   copy: 
     src: ../files/uwsgi_params
-    dest: /home/ubuntu/uwsgi-tutorial/mysite/uwsgi_params
+    dest: "{{ project_path }}/uwsgi_params"
 
-- name: copy uwsgi params
-  copy: 
-    src: ../files/mysite_uwsgi.ini
-    dest: /home/ubuntu/uwsgi-tutorial/mysite/mysite_uwsgi.ini
+- name: copy mysite_uwsgi.ini
+  template: 
+    src: mysite_uwsgi.ini.j2
+    dest: "{{ project_path }}/{{ project_name }}_uwsgi.ini"
 
 - name: config setting.py
   template:
     src: setting.j2
-    dest: /home/ubuntu/uwsgi-tutorial/mysite/mysite/settings.py
+    dest: "{{ project_path }}/{{ project_name }}/settings.py"
       
 - name: check is file exists
   stat:
-    path: /home/ubuntu/uwsgi-tutorial/mysite/static/admin
+    path: "{{ project_path }}/static/admin"
   register: is_colect
   
 - name: collectstatistic
   shell: |
-    cd /home/ubuntu/uwsgi-tutorial/mysite
+    cd {{ project_path }}
     python3 manage.py collectstatic
+    python3 manage.py migrate
   when: not is_colect.stat.exists
+  notify: add user
     
 - name: restart nginx
   service: 
@@ -90,8 +93,8 @@
     enabled: yes   
 
 - name: add rc.local
-  copy: 
-    src: ../files/rc.local
+  template: 
+    src: rc.local.j2
     dest: /etc/rc.local
     
 - name: add +x

@@ -26,7 +26,6 @@ resource "aws_instance" "ec2" {
   instance_type          = "t2.micro"
   key_name               = aws_key_pair.key.key_name
   vpc_security_group_ids = [aws_security_group.sg-http-https-ssh.id]
-  #  iam_instance_profile   = "EC2SecretAccessRole"
 
   provisioner "remote-exec" {
     inline = ["echo 'Waiting for server to be initialized...'"]
@@ -52,7 +51,8 @@ resource "aws_instance" "ec2" {
   tags = {
     Name = format("Server-%d", count.index)
   }
-  subnet_id = var.public_subnets.* [count.index]
+  subnet_id = var.public_subnets.*[0]
+   #subnet_id = "subnet-07d6bcec7b8845572"
 }
 
 

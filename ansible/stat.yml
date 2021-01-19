@@ -12,7 +12,6 @@
           bucket: "tr-bucket-kr"
           key: "terraform.tfstate"
       register: out
-    - debug: var=out.outputs
 
 - name: reboot
   hosts: aws_ec2

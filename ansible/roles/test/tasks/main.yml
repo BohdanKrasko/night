@@ -1,6 +1,0 @@
----
-# tasks file for test
-- name: config setting.py
-  template:
-    src: setting.j2
-    dest: /home/bohdan/Desktop/git/tem

@@ -1,3 +1,15 @@
 ---
 # vars file for django
 db_engine: django.db.backends.postgresql_psycopg2
+db_name: "{{ hostvars['localhost']['out']['outputs']['db_name']['value'] }}"
+db_user: "{{ hostvars['localhost']['out']['outputs']['db_username']['value'] }}"
+db_password: "{{ hostvars['localhost']['out']['outputs']['db_password']['value'] }}"
+db_host: "{{ hostvars['localhost']['out']['outputs']['db_address']['value'] }}"
+db_port: "{{ hostvars['localhost']['out']['outputs']['db_port']['value'] }}"
+
+allowed_host: "{{ hostvars['localhost']['out']['outputs']['public_ip']['value'] }}"
+public_dns: "{{ hostvars['localhost']['out']['outputs']['public_dns']['value'] }}"
+
+project_path: "{{ env_path }}/{{ project_name }}"
+project_name: djangi
+env_path: /home/ubuntu/project

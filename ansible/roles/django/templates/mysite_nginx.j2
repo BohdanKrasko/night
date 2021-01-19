@@ -1,0 +1,47 @@
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {}
+
+http {
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+
+        server_names_hash_bucket_size 128;
+
+        include /etc/nginx/mime.types;
+
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+
+        upstream django {
+                server unix://{{ project_path }}/{{ project_name }}.sock;
+        }
+
+        server {
+                listen      8888;
+                server_name {{ public_dns }};
+                charset     utf-8;
+
+                client_max_body_size 75M;
+
+                location /media  {
+                        alias {{ project_path }}/media;
+                }
+
+                location /static {
+                        alias {{ project_path }}/static;
+                }
+
+
+                location / {
+                        uwsgi_pass  django;
+                        include     {{ project_path }}/uwsgi_params;
+                }
+        }
+}

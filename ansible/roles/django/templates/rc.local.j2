@@ -11,7 +11,7 @@
 #
 # By default this script does nothing.
 
-/usr/local/bin/uwsgi --emperor /home/ubuntu/uwsgi-tutorial/mysite/mysite_uwsgi.ini
+/usr/local/bin/uwsgi --emperor {{ project_path }}/{{ project_name }}_uwsgi.ini
 
 exit 0
 
