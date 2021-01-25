@@ -52,7 +52,6 @@ resource "aws_instance" "ec2" {
     Name = format("Server-%d", count.index)
   }
   subnet_id = var.public_subnets.*[0]
-   #subnet_id = "subnet-07d6bcec7b8845572"
 }
 
 

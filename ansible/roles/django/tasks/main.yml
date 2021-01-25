@@ -28,9 +28,7 @@
 - name: install uwsgi and Django
   pip:
     name: 
-     - uwsgi
-     - Django
-     - psycopg2
+      requirements: ../files/requirements.txt
 
 - name: check is file exists
   stat:

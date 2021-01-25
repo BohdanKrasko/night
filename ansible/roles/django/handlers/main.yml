@@ -7,7 +7,3 @@
     username: 'user'
     email: 'boob@mail.com'
     password: 'user'
-
-  
-  #shell: |
-   # echo "from django.contrib.auth.models import User; User.objects.create_superuser('{{ db_user }}', 'user@example.com', '{{ db_password }}')" | python3 {{ project_path }}/manage.py shell
