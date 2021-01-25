@@ -24,12 +24,15 @@
    - python-setuptools
    - python3-virtualenv
    - nginx
-   
+- name: add file requirements.txt
+  copy: 
+    src: ../files/requirements.txt
+    dest: /home/ubuntu/requirements.txt
+    
 - name: install uwsgi and Django
-  pip:
-    name: 
-      requirements: ../files/requirements.txt
-
+  ansible.builtin.pip:
+    requirements: /home/ubuntu/requirements.txt
+    
 - name: check is file exists
   stat:
     path: "{{ env_path }}"
